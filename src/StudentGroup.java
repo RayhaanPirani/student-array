@@ -191,13 +191,10 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		Student[] studentsUpdated = new Student[this.students.length - index - 1];
+		ArrayList<Student> studentsList = new ArrayList<Student>(Arrays.asList(this.students));
+		studentsList.subList(0, index).clear();
 
-		for(int i = 0; i < studentsUpdated.length; i++) {
-			studentsUpdated[i] = this.students[i + index];
-		}
-
-		this.students = studentsUpdated;
+		this.students = studentsList.toArray(this.students);
 	}
 
 	@Override
