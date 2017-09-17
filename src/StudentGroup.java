@@ -258,7 +258,8 @@ public class StudentGroup implements StudentArrayOperation {
 		
 		for(int i = 0; i < this.students.length; i++) {
 			Date studentBirthDate = this.students[i].getBirthDate();
-			if(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate)) {
+			if(studentBirthDate.equals(firstDate) || studentBirthDate.equals(lastDate) ||
+				(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate))) {
 				studentsBetweenBirthDatesCount++;
 			}
 		}
