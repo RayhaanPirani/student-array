@@ -275,23 +275,19 @@ public class StudentGroup implements StudentArrayOperation {
 		}
 
 		int studentsBetweenBirthDatesCount = 0;
+		List<Student> studentsBetweenBirthDates = new ArrayList<Student>();
 		
 		for(int i = 0; i < this.students.length; i++) {
 			Date studentBirthDate = this.students[i].getBirthDate();
 			if(studentBirthDate.equals(firstDate) || studentBirthDate.equals(lastDate) ||
 				(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate))) {
-				studentsBetweenBirthDatesCount++;
+				studentsBetweenBirthDates.add(this.students[i]);
 			}
 		}
 
-		Student[] studentsBetweenBirthDates = new Student[studentsBetweenBirthDatesCount];
+		Student[] studentsBetweenBirthDatesArray = new Student[studentsBetweenBirthDates.size()];
 
-		for(int i = 0, j = 0; i < this.students.length; i++) {
-			Date studentBirthDate = this.students[i].getBirthDate();
-			if(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate)) {
-				studentsBetweenBirthDates[j++] = this.students[i];
-			}
-		}
+		studentsBetweenBirthDatesArray = studentsBetweenBirthDates.toArray(studentsBetweenBirthDatesArray);
 
 		return studentsBetweenBirthDates;
 	}
