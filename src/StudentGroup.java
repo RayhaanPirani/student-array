@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -158,13 +159,10 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		Student[] studentsUpdated = new Student[index + 1];
+		ArrayList<Student> studentsList = new ArrayList<Student>(Arrays.asList(this.students));
+		studentsList.subList(index + 1, studentsList.size()).clear();
 
-		for(int i = 0; i <= index; i++) {
-			studentsUpdated[i] = this.students[i];
-		}
-
-		this.students = studentsUpdated;
+		this.students = studentsList.toArray(this.students);
 	}
 
 	@Override
