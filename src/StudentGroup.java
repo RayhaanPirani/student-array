@@ -289,7 +289,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 		studentsBetweenBirthDatesArray = studentsBetweenBirthDates.toArray(studentsBetweenBirthDatesArray);
 
-		return studentsBetweenBirthDates;
+		return studentsBetweenBirthDatesArray;
 	}
 
 	@Override
