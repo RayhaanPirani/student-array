@@ -81,7 +81,7 @@ public class Student implements Comparable {
 
 		if(this == other) return true;
 
-		if(this.id == other.getId && this.fullName.equals(other.getFullName())
+		if(this.id == other.getId() && this.fullName.equals(other.getFullName())
 		   && this.birthDate.equals(other.getBirthDate()) && this.avgMark == other.getAvgMark()) {
 			   return true;
 		   }

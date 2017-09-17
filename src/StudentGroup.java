@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 
 /**
  * A fix-sized array of students
@@ -48,7 +49,7 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		return this.students[i];
+		return this.students[index];
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 		
-		this.students[i] = student;
+		this.students[index] = student;
  	}
 
 	@Override
@@ -84,7 +85,7 @@ public class StudentGroup implements StudentArrayOperation {
 	@Override
 	public void add(Student student, int index) {
 		// Add your implementation here
-		Student[] studentsUpdated = new int[this.students.length + 1];
+		Student[] studentsUpdated = new Student[this.students.length + 1];
 
 		for(int i = 0; i < index; i++) {
 			studentsUpdated[i] = this.students[i];
@@ -92,7 +93,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 		studentsUpdated[index] = student;
 
-		for(i = index; i < this.students.length; i++) {
+		for(int i = index; i < this.students.length; i++) {
 			studentsUpdated[i + 1] = this.students[i];
 		}
 
@@ -106,13 +107,13 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		Student[] studentsUpdated = new int[this.students.length - 1];
+		Student[] studentsUpdated = new Student[this.students.length - 1];
 
 		for(int i = 0; i < index; i++) {
 			studentsUpdated[i] = this.students[i];
 		}
 
-		for(i = index + 1; i < this.students.length; i++) {
+		for(int i = index + 1; i < this.students.length; i++) {
 			studentsUpdated[i - 1] = this.students[i];
 		}
 
@@ -143,7 +144,7 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		Student[] studentsUpdated = new int[index + 1];
+		Student[] studentsUpdated = new Student[index + 1];
 
 		for(int i = 0; i <= index; i++) {
 			studentsUpdated[i] = this.students[i];
@@ -178,7 +179,7 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		Student[] studentsUpdated = new int[this.students.length - index - 1];
+		Student[] studentsUpdated = new Student[this.students.length - index - 1];
 
 		for(int i = 0; i < studentsUpdated.length; i++) {
 			studentsUpdated[i] = this.students[i + index];
@@ -210,8 +211,8 @@ public class StudentGroup implements StudentArrayOperation {
 	public void bubbleSort() {
 		// Add your implementation here
 		for(int i = 0; i < this.students.length - 1; i++) {
-			for(int j = 0; j < this.students.length - i - 1) {
-				if(this.students[j].compareTo(this.students[j + 1])) {
+			for(int j = 0; j < this.students.length - i - 1; j++) {
+				if(this.students[j].compareTo(this.students[j + 1]) > 0) {
 					Student temporaryStudent = this.students[j];
 					this.students[j] = this.students[j + 1];
 					this.students[j + 1] = temporaryStudent;
@@ -230,7 +231,7 @@ public class StudentGroup implements StudentArrayOperation {
 		int studentsWithBirthDateCount = 0;
 		
 		for(int i = 0; i < this.students.length; i++) {
-			if(date.equals(this.students.length.getBirthDate())) {
+			if(date.equals(this.students[i].getBirthDate())) {
 				studentsWithBirthDateCount++;
 			}
 		}
@@ -238,7 +239,7 @@ public class StudentGroup implements StudentArrayOperation {
 		Student[] studentsByBirthDate = new Student[studentsWithBirthDateCount];
 
 		for(int i = 0, j = 0; i < this.students.length; i++) {
-			if(date.equals(this.students.length.getBirthDate())) {
+			if(date.equals(this.students[i].getBirthDate())) {
 				studentsByBirthDate[j++] = this.students[i];
 			}
 		}
@@ -256,7 +257,7 @@ public class StudentGroup implements StudentArrayOperation {
 		int studentsBetweenBirthDatesCount = 0;
 		
 		for(int i = 0; i < this.students.length; i++) {
-			Date studentBirthDate = this.students.length.getBirthDate();
+			Date studentBirthDate = this.students[i].getBirthDate();
 			if(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate)) {
 				studentsBetweenBirthDatesCount++;
 			}
@@ -265,7 +266,7 @@ public class StudentGroup implements StudentArrayOperation {
 		Student[] studentsBetweenBirthDates = new Student[studentsBetweenBirthDatesCount];
 
 		for(int i = 0, j = 0; i < this.students.length; i++) {
-			Date studentBirthDate = this.students.length.getBirthDate();
+			Date studentBirthDate = this.students[i].getBirthDate();
 			if(studentBirthDate.after(firstDate) && studentBirthDate.before(lastDate)) {
 				studentsBetweenBirthDates[j++] = this.students[i];
 			}
@@ -281,8 +282,9 @@ public class StudentGroup implements StudentArrayOperation {
 			throw new IllegalArgumentException();
 		}
 
-		LocalDate specifiedDate = date.getBirthDate()
-									  .toInstant().atZone(ZoneId.systemDefault())
+		int studentsWithNearBirthDateCount = 0;
+
+		LocalDate specifiedDate = date.toInstant().atZone(ZoneId.systemDefault())
 									  .toLocalDate();
 		LocalDate lowerBoundDate = specifiedDate.minusDays(days);
 		LocalDate upperBoundDate = specifiedDate.plusDays(days);
@@ -310,6 +312,8 @@ public class StudentGroup implements StudentArrayOperation {
 				studentsWithNearBirthDate[j++] = this.students[i];
 			   }
 		}
+
+		return studentsWithNearBirthDate;
 	}
 
 	@Override
@@ -332,7 +336,7 @@ public class StudentGroup implements StudentArrayOperation {
 		int studentsWithAgeCount = 0;
 
 		for(int i = 0; i < this.students.length; i++) {
-			if(this.getCurrentAgeByDate() == age) {
+			if(this.getCurrentAgeByDate(i) == age) {
 				studentsWithAgeCount++;
 			}
 		}
@@ -340,7 +344,7 @@ public class StudentGroup implements StudentArrayOperation {
 		Student[] studentsWithAge = new Student[studentsWithAgeCount];
 
 		for(int i = 0, j = 0; i < this.students.length; i++) {
-			if(this.getCurrentAgeByDate() == age) {
+			if(this.getCurrentAgeByDate(i) == age) {
 				studentsWithAge[j++] = this.students[i];
 			}
 		}
@@ -351,7 +355,8 @@ public class StudentGroup implements StudentArrayOperation {
 	@Override
 	public Student[] getStudentsWithMaxAvgMark() {
 		// Add your implementation here
-		int maxAvgMark = this.students[0].getAvgMark(), firstMaxAvgMarkIndex = 0, maxAvgMarkCount = 0;
+		double maxAvgMark = this.students[0].getAvgMark();
+		int firstMaxAvgMarkIndex = 0, maxAvgMarkCount = 0;
 
 		for(int i = 1; i < this.students.length; i++) {
 			if(this.students[i].getAvgMark() > maxAvgMark) {
