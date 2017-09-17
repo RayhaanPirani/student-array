@@ -105,6 +105,9 @@ public class StudentGroup implements StudentArrayOperation {
 	@Override
 	public void remove(int index) {
 		// Add your implementation here
+		if(index < 0 || index >= this.students.length) {
+			throw new IllegalArgumentException();
+		}
 
 		Student[] studentsUpdated = new Student[this.students.length - 1];
 
